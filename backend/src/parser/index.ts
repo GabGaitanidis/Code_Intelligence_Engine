@@ -21,5 +21,8 @@ export async function parser(file: string) {
     const resolved = path.resolve(path.dirname(file), dependantFileName);
     filePaths.push(resolved);
   }
-  return filePaths;
+  return {
+    file,
+    imports: filePaths,
+  };
 }
