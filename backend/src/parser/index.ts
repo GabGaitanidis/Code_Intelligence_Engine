@@ -1,5 +1,6 @@
 import { createInterface } from "node:readline/promises";
 import { createReadStream } from "node:fs";
+import path from "node:path";
 
 export async function parser(file: string) {
   const filePaths: string[] = [];
@@ -17,8 +18,8 @@ export async function parser(file: string) {
     const isRelative =
       dependantFileName.startsWith("./") || dependantFileName.startsWith("../");
     if (!isRelative) continue;
-
-    filePaths.push(dependantFileName);
+    const resolved = path.resolve(path.dirname(file), dependantFileName);
+    filePaths.push(resolved);
   }
   return filePaths;
 }
