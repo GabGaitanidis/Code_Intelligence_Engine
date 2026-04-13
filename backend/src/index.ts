@@ -1,7 +1,10 @@
 import { fetchRepo } from "./fetcher";
+import { cleanupRepo } from "./fetcher/cleanupRepo";
 import { walkerRepo } from "./fetcher/repoWalker";
 import { buildGraph } from "./graph";
+import { setGraph } from "./graph/store";
 import { parser } from "./parser";
+import { dependedBy, dependsOn } from "./query/queries";
 
 async function main() {
   const repoPath = await fetchRepo(
@@ -10,10 +13,11 @@ async function main() {
 
   const files = await walkerRepo(repoPath);
 
-  const parsed = await Promise.all(files.map((f) => parser(f)));
-
+  const parsed = await Promise.all(files.map((f) => parser(f, repoPath)));
+  console.log(parsed);
   const graph = buildGraph(parsed);
-  console.log(JSON.stringify(graph.export(), null, 2));
+  setGraph(graph);
+  console.log(dependedBy("backend/src/fetcher/repoWalker.ts"));
 }
 
 main();

@@ -3,7 +3,7 @@ import { createReadStream } from "node:fs";
 import path from "node:path";
 import fs from "fs/promises";
 
-export async function parser(file: string) {
+export async function parser(file: string, repoRoot: string) {
   const filePaths: string[] = [];
   const fileStream = createReadStream(file);
   const rl = createInterface({
@@ -23,9 +23,12 @@ export async function parser(file: string) {
     if (!resolved) continue;
     filePaths.push(resolved);
   }
+  const normalizedFile = file.replace(repoRoot + "/", "");
+  const normalizedImports = filePaths.map((p) => p.replace(repoRoot + "/", ""));
+
   return {
-    file,
-    imports: filePaths,
+    file: normalizedFile,
+    imports: normalizedImports,
   };
 }
 
