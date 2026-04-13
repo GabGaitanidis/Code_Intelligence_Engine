@@ -11,6 +11,7 @@ export async function parser(file: string) {
   });
 
   for await (const line of rl) {
+    console.log("line:", JSON.stringify(line));
     const match = line.match(/from\s+['"]([^'"]+)['"]/);
     if (!match) continue;
 
@@ -18,7 +19,8 @@ export async function parser(file: string) {
     const isRelative =
       dependantFileName.startsWith("./") || dependantFileName.startsWith("../");
     if (!isRelative) continue;
-    const resolved = path.resolve(path.dirname(file), dependantFileName);
+    const resolved =
+      path.resolve(path.dirname(file), dependantFileName) + ".ts";
     filePaths.push(resolved);
   }
   return {
