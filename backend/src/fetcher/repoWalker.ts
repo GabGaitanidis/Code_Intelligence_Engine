@@ -9,12 +9,7 @@ export async function walkerRepo(repoPath: string) {
 
   async function walk(dir: string) {
     const entries = await fs.readdir(dir, { withFileTypes: true }); // list of directories in dir
-    console.log(
-      "walking:",
-      dir,
-      "| entries:",
-      entries.map((e) => e.name),
-    );
+
     for (const entry of entries) {
       if (IGNORE.includes(entry.name)) continue;
 

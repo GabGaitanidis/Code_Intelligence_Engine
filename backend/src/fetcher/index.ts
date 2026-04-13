@@ -1,6 +1,7 @@
 import simpleGit from "simple-git";
 import fs from "fs/promises";
 import path from "path";
+import { cleanupRepo } from "./cleanupRepo";
 
 export async function fetchRepo(repoUrl: string): Promise<string> {
   const repoName = repoUrl.split("/").pop()?.replace(".git", "") ?? "repo";
@@ -13,8 +14,4 @@ export async function fetchRepo(repoUrl: string): Promise<string> {
   }
 
   return clonePath;
-}
-
-export async function cleanupRepo(repoPath: string): Promise<void> {
-  await fs.rm(repoPath, { recursive: true, force: true });
 }
