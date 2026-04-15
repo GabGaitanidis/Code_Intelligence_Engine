@@ -19,7 +19,16 @@ export async function parser(file: string, repoRoot: string) {
     const isRelative =
       dependantFileName.startsWith("./") || dependantFileName.startsWith("../");
     if (!isRelative) continue;
-    const resolved = await resolveImport(path.dirname(file), dependantFileName);
+    const hasExtension = /\.(ts|tsx|js|jsx)$/.test(dependantFileName);
+
+    let resolved: string | null;
+
+    if (hasExtension) {
+      resolved = path.resolve(path.dirname(file), dependantFileName);
+    } else {
+      resolved = await resolveImport(path.dirname(file), dependantFileName);
+    }
+
     if (!resolved) continue;
     filePaths.push(resolved);
   }
