@@ -10,7 +10,7 @@ export async function fetchRepo(repoUrl: string): Promise<string> {
   try {
     await fs.access(clonePath);
   } catch {
-    await simpleGit().clone(repoUrl, clonePath);
+    await simpleGit().clone(repoUrl, clonePath, ["--depth", "1"]);
   }
 
   return clonePath;

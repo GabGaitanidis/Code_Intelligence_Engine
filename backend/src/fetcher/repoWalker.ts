@@ -4,7 +4,7 @@ import path from "path";
 const IGNORE = ["node_modules", "dist", ".git", "build", "coverage"];
 const EXTENSIONS = [".ts", ".tsx", ".js", ".jsx"];
 
-export async function walkerRepo(repoPath: string) {
+export async function walkRepo(repoPath: string) {
   const files: string[] = [];
 
   async function walk(dir: string) {
